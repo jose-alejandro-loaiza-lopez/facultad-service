@@ -1,8 +1,6 @@
-package co.empresa.productoservice.delivery.exception;
+package co.empresa.facultadservice.delivery.exception;
 
-
-import co.empresa.productoservice.domain.exception.*;
-import co.empresa.productoservice.domain.model.Producto;
+import co.empresa.facultadservice.domain.exception.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +16,12 @@ public class GlobalExceptionHandler {
 
     private static final String ERROR = "error";
     private static final String MENSAJE = "mensaje";
-    private static final String PRODUCTO = "producto";
-    private static final String PRODUCTOS = "productos";
+    private static final String FACULTAD = "facultad";
+    private static final String FACULTADES = "facultades";
     private static final String STATUS = "status";
 
-    @ExceptionHandler(PaginaSinProductosException.class)
-    public ResponseEntity<Map<String, Object>> handlePaginaSinProductos(PaginaSinProductosException ex) {
+    @ExceptionHandler(PaginaSinFacultadException.class)
+    public ResponseEntity<Map<String, Object>> handlePaginaSinFacultades(PaginaSinFacultadException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put(MENSAJE, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
@@ -36,24 +34,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @ExceptionHandler(NoHayProductosException.class)
-    public ResponseEntity<Map<String, Object>> handleNoHayProductos(NoHayProductosException ex) {
+    @ExceptionHandler(NoHayFacultadException.class)
+    public ResponseEntity<Map<String, Object>> handleNoHayFacultades(NoHayFacultadException ex) {
         Map<String, Object> response = new HashMap<>();
-        response.put(MENSAJE, "No hay productos en la base de datos.");
-        response.put(PRODUCTOS, null); // para que sea siempre el mismo campo
-        return ResponseEntity.status(HttpStatus.OK).body(response); // 200 pero lista vacía
+        response.put(MENSAJE, "No hay facultades en la base de datos.");
+        response.put(FACULTADES, null);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @ExceptionHandler(ProductoNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>> handleProductoNoEncontrado(ProductoNoEncontradoException ex) {
+    @ExceptionHandler(FacultadNoEncontradoException.class)
+    public ResponseEntity<Map<String, Object>> handleFacultadNoEncontrada(FacultadNoEncontradoException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put(ERROR, ex.getMessage());
         response.put(STATUS, HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
-    @ExceptionHandler(ProductoExistenteException.class)
-    public ResponseEntity<Map<String, Object>> handleProductoExistente(ProductoExistenteException ex) {
+    @ExceptionHandler(FacultadExistenteException.class)
+    public ResponseEntity<Map<String, Object>> handleFacultadExistente(FacultadExistenteException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put(ERROR, ex.getMessage());
         response.put(STATUS, HttpStatus.BAD_REQUEST.value());
@@ -79,16 +77,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Map<String, Object>> handleValidationException(ValidationException ex) {
         Map<String, Object> response = new HashMap<>();
-        response.put(MENSAJE, ex.getMessage());
-        response.put(ERROR, ex.getMessage());
-
         List<String> errors = ex.result.getFieldErrors()
                 .stream()
                 .map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
                 .toList();
 
+        response.put(MENSAJE, "Error de validación.");
         response.put(ERROR, errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-
     }
 }
