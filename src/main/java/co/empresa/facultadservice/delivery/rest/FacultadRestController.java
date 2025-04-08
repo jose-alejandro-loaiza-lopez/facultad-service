@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/facultad")
+@RequestMapping("/api/v1/facultad-service")
 public class FacultadRestController {
 
     private final IFacultadService facultadService;
@@ -36,7 +36,7 @@ public class FacultadRestController {
     /**
      * Listar todas las facultades.
      */
-    @GetMapping
+    @GetMapping("/facultads")
     public ResponseEntity<Map<String, Object>> getFacultades() {
         List<Facultad> facultades = facultadService.findAll();
         if (facultades.isEmpty()) {
@@ -50,7 +50,7 @@ public class FacultadRestController {
     /**
      * Listar facultades con paginación.
      */
-    @GetMapping("/page/{page}")
+    @GetMapping("/facultad/page/{page}")
     public ResponseEntity<Object> index(@PathVariable Integer page) {
         Pageable pageable = PageRequest.of(page, 4);
         Page<Facultad> facultades = facultadService.findAll(pageable);
@@ -63,7 +63,7 @@ public class FacultadRestController {
     /**
      * Crear una nueva facultad.
      */
-    @PostMapping
+    @PostMapping("/facultads")
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody Facultad facultad, BindingResult result) {
         if (result.hasErrors()) {
             throw new ValidationException(result);
@@ -78,7 +78,7 @@ public class FacultadRestController {
     /**
      * Eliminar una facultad.
      */
-    @DeleteMapping
+    @DeleteMapping("/facultads")
     public ResponseEntity<Map<String, Object>> delete(@RequestBody Facultad facultad) {
         facultadService.findById(facultad.getId())
                 .orElseThrow(() -> new FacultadNoEncontradoException(facultad.getId()));
@@ -92,7 +92,7 @@ public class FacultadRestController {
     /**
      * Actualizar una facultad.
      */
-    @PutMapping
+    @PutMapping("/facultads")
     public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody Facultad facultad, BindingResult result) {
         if (result.hasErrors()) {
             throw new ValidationException(result);
@@ -109,7 +109,7 @@ public class FacultadRestController {
     /**
      * Obtener una facultad por su ID.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/facultads/{id}")
     public ResponseEntity<Map<String, Object>> findById(@PathVariable Long id) {
         Facultad facultad = facultadService.findById(id)
                 .orElseThrow(() -> new FacultadNoEncontradoException(id));
