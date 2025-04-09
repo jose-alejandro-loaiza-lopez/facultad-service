@@ -103,13 +103,3 @@ INSERT INTO facultad (nombre, id_decano) VALUES ('Facultad de Derecho', 18);
 ```
 
 ---
-
-## 🚀 Tecnologías
-
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- PostgreSQL
-- Maven
-
----
