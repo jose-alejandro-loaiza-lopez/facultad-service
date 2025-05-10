@@ -1,0 +1,16 @@
+Microsoft Windows [Versión 10.0.26100.3915]
+(c) Microsoft Corporation. Todos los derechos reservados.
+
+C:\Users\josea>curl -X GET http://localhost:8080/api/v1/facultad-service/facultads
+{"facultades":[{"id":1,"idDecano":10,"nombre":"Facultad de Ingeniería"},{"id":2,"idDecano":12,"nombre":"Facultad de Ciencias"},{"id":3,"idDecano":14,"nombre":"Facultad de Artes"},{"id":4,"idDecano":15,"nombre":"Facultad de Medicina"},{"id":5,"idDecano":18,"nombre":"Facultad de Derecho"}]}
+C:\Users\josea>curl -X GET http://localhost:8080/api/v1/facultad-service/facultad/page/0
+{"content":[{"id":1,"idDecano":10,"nombre":"Facultad de Ingeniería"},{"id":2,"idDecano":12,"nombre":"Facultad de Ciencias"},{"id":3,"idDecano":14,"nombre":"Facultad de Artes"},{"id":4,"idDecano":15,"nombre":"Facultad de Medicina"}],"pageable":{"pageNumber":0,"pageSize":4,"sort":{"empty":true,"sorted":false,"unsorted":true},"offset":0,"paged":true,"unpaged":false},"last":false,"totalPages":2,"totalElements":5,"first":true,"size":4,"number":0,"sort":{"empty":true,"sorted":false,"unsorted":true},"numberOfElements":4,"empty":false}
+C:\Users\josea>curl -X GET http://localhost:8080/api/v1/facultad-service/facultads/3
+{"mensaje":"La facultad ha sido encontrada con éxito!","facultad":{"id":3,"idDecano":14,"nombre":"Facultad de Artes"}}
+C:\Users\josea>curl -X POST http://localhost:8080/api/v1/facultad-service/facultads -H "Content-Type: application/json" -d "{\"nombre\":\"Facultad de Psicología\",\"idDecano\":20}"
+{"mensaje":"La facultad ha sido creada con éxito!","facultad":{"id":6,"idDecano":20,"nombre":"Facultad de Psicología"}}
+C:\Users\josea>curl -X PUT http://localhost:8080/api/v1/facultad-service/facultads -H "Content-Type: application/json" -d "{\"id\":2,\"nombre\":\"Facultad de Ciencias Naturales\",\"idDecano\":22}"
+{"mensaje":"La facultad ha sido actualizada con éxito!","facultad":{"id":2,"idDecano":22,"nombre":"Facultad de Ciencias Naturales"}}
+C:\Users\josea>curl -X DELETE http://localhost:8080/api/v1/facultad-service/facultads -H "Content-Type: application/json" -d "{\"id\":5,\"nombre\":\"Facultad de Derecho\",\"idDecano\":18}"
+{"mensaje":"La facultad ha sido eliminada con éxito!","facultad":null}
+C:\Users\josea>
